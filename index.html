@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Home Kitchen - Karachi Only</title>
+    <title>The Home Kitchen - Karachi</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         * {
@@ -108,15 +108,69 @@
             color: white;
             padding: 12px 25px;
             border-radius: 50px;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 600;
             margin-top: 15px;
+            text-align: center;
+            line-height: 1.4;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
+        }
+
+        /* Saved Info Banner */
+        .saved-info-banner {
+            background: linear-gradient(45deg, rgba(76, 175, 80, 0.2), rgba(76, 175, 80, 0.1));
+            border: 2px solid var(--free);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: none;
+            animation: slideDown 0.5s ease;
+        }
+
+        .saved-info-banner.show {
+            display: block;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .saved-info-title {
+            color: var(--free);
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .saved-info-details {
+            color: #ccc;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .edit-info-btn {
+            margin-top: 10px;
+            padding: 8px 20px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid var(--golden);
+            color: var(--golden);
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .edit-info-btn:hover {
+            background: var(--golden);
+            color: #000;
         }
 
         /* Location Section */
@@ -195,6 +249,35 @@
             background-position: right 15px center;
             background-size: 20px;
             padding-right: 50px;
+        }
+
+        .save-info-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(45deg, var(--free), #45a049);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s;
+            margin-top: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .save-info-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(76, 175, 80, 0.4);
+        }
+
+        .save-info-btn.saved {
+            background: linear-gradient(45deg, #2196F3, #1976D2);
         }
 
         .gps-btn {
@@ -564,6 +647,8 @@
             gap: 10px;
             text-transform: uppercase;
             box-shadow: 0 10px 30px rgba(37, 211, 102, 0.3);
+            position: relative;
+            overflow: hidden;
         }
 
         .place-order-btn:hover:not(:disabled) {
@@ -572,8 +657,24 @@
         }
 
         .place-order-btn:disabled {
-            opacity: 0.5;
+            opacity: 0.6;
             cursor: not-allowed;
+        }
+
+        .place-order-btn.processing::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: processing 1.5s infinite;
+        }
+
+        @keyframes processing {
+            0% { left: -100%; }
+            100% { left: 100%; }
         }
 
         /* Cart Toggle */
@@ -723,6 +824,14 @@
             box-shadow: 0 10px 30px rgba(196, 30, 58, 0.4);
         }
 
+        /* Hidden iframe for silent WhatsApp */
+        .hidden-iframe {
+            display: none;
+            width: 0;
+            height: 0;
+            border: none;
+        }
+
         /* Toast */
         .toast {
             position: fixed;
@@ -760,6 +869,9 @@
 </head>
 <body>
     <div class="bg-animation"></div>
+
+    <!-- Hidden iframe for silent WhatsApp sending -->
+    <iframe id="whatsappFrame" class="hidden-iframe"></iframe>
 
     <!-- Cart Toggle -->
     <div class="cart-toggle" onclick="toggleCart()">
@@ -828,21 +940,31 @@
         </div>
         <div class="delivery-badge">
             <span>🚚</span>
-            <span>DELIVERY FREE: North Nazimabad Blocks A-B-C-D-E-F-G-H-K-L-M-N | Other Areas: Rs. 100</span>
+            <span>FREE: Block A, B, C, D, E, F, G, H, K, L, M, N | Other Areas: Rs. 100</span>
         </div>
     </header>
 
     <div class="container">
+        <!-- Saved Info Banner -->
+        <div class="saved-info-banner" id="savedInfoBanner">
+            <div class="saved-info-title">
+                <span>✅</span>
+                <span>Saved Delivery Information</span>
+            </div>
+            <div class="saved-info-details" id="savedInfoDetails"></div>
+            <button class="edit-info-btn" onclick="editSavedInfo()">Edit Information</button>
+        </div>
+
         <!-- Location Section -->
-        <section class="location-section">
-            <h2 class="section-title">📍 Delivery Location</h2>
-            <p class="section-subtitle">We currently deliver only in Karachi. Select your area below.</p>
+        <section class="location-section" id="locationSection">
+            <h2 class="section-title">📍 Delivery Details</h2>
+            <p class="section-subtitle">Enter your details and save for faster checkout</p>
             
             <div class="location-grid">
                 <div>
                     <div class="form-group">
                         <label>Select Area *</label>
-                        <select class="form-select area-select" id="areaSelect" onchange="updateDelivery()">
+                        <select class="form-select area-select" id="areaSelect" onchange="updateBlockOptions()">
                             <option value="">-- Select Your Area --</option>
                             <option value="north_nazimabad">North Nazimabad</option>
                             <option value="nazimabad">Nazimabad</option>
@@ -865,7 +987,7 @@
                     
                     <div class="form-group" id="blockGroup" style="display: none;">
                         <label>Block *</label>
-                        <select class="form-select area-select" id="blockSelect" onchange="updateDelivery()">
+                        <select class="form-select area-select" id="blockSelect">
                             <option value="">-- Select Block --</option>
                             <option value="A">Block A</option>
                             <option value="B">Block B</option>
@@ -897,6 +1019,11 @@
                 </div>
             </div>
 
+            <div class="form-group">
+                <label>Phone Number *</label>
+                <input type="tel" class="form-input" id="phoneInput" placeholder="03XX-XXXXXXX">
+            </div>
+
             <button class="gps-btn" id="gpsBtn" onclick="detectLocation()">
                 <span>📡</span> Auto-Detect My Location (GPS)
             </button>
@@ -904,14 +1031,13 @@
             <div class="location-status" id="locationStatus"></div>
 
             <div class="form-group" style="margin-top: 20px;">
-                <label>Phone Number *</label>
-                <input type="tel" class="form-input" id="phoneInput" placeholder="03XX-XXXXXXX">
-            </div>
-
-            <div class="form-group">
                 <label>Delivery Instructions (Optional)</label>
                 <input type="text" class="form-input" id="instructionsInput" placeholder="Ring bell twice, Leave at gate, etc.">
             </div>
+
+            <button class="save-info-btn" id="saveInfoBtn" onclick="saveCustomerInfo()">
+                <span>💾</span> Save My Information
+            </button>
         </section>
 
         <!-- Menu Section -->
@@ -921,13 +1047,14 @@
         </section>
     </div>
 
-    <div class="toast" id="toast">Added to cart! ✓</div>
+    <div class="toast" id="toast"></div>
 
     <script>
         // Configuration - KARACHI ONLY
         const FREE_DELIVERY_BLOCKS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'K', 'L', 'M', 'N'];
         const OWNER_WHATSAPP = '923222181352';
         let orderCounter = 1;
+        let savedCustomerData = null;
 
         // Menu Data
         const menuItems = [
@@ -961,6 +1088,7 @@
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
             renderMenu();
+            checkSavedInfo();
         });
 
         function renderMenu() {
@@ -992,19 +1120,16 @@
             `).join('');
         }
 
-        function updateDelivery() {
+        function updateBlockOptions() {
             const area = document.getElementById('areaSelect').value;
             const blockGroup = document.getElementById('blockGroup');
             
-            // Show block selection only for North Nazimabad
             if (area === 'north_nazimabad') {
                 blockGroup.style.display = 'block';
             } else {
                 blockGroup.style.display = 'none';
                 document.getElementById('blockSelect').value = '';
             }
-            
-            updateCart();
         }
 
         function selectSize(itemId, size) {
@@ -1025,7 +1150,7 @@
             }
             
             updateCart();
-            showToast();
+            showToast('Added to cart! ✓');
         }
 
         function updateCart() {
@@ -1049,14 +1174,12 @@
             
             summary.style.display = 'block';
             
-            // Calculate delivery for Karachi
-            const area = document.getElementById('areaSelect').value;
-            const block = document.getElementById('blockSelect').value;
-            let deliveryCharge = 100; // Default for Karachi
+            // Calculate delivery
+            let deliveryCharge = 100;
             let isFree = false;
             
-            // Free only for North Nazimabad specific blocks
-            if (area === 'north_nazimabad' && FREE_DELIVERY_BLOCKS.includes(block)) {
+            if (savedCustomerData && savedCustomerData.area === 'north_nazimabad' && 
+                FREE_DELIVERY_BLOCKS.includes(savedCustomerData.block)) {
                 deliveryCharge = 0;
                 isFree = true;
             }
@@ -1098,16 +1221,92 @@
             updateCart();
         }
 
-        // GPS Location Detection
+        // Save Customer Info
+        function saveCustomerInfo() {
+            const area = document.getElementById('areaSelect').value;
+            const block = document.getElementById('blockSelect').value;
+            const address = document.getElementById('addressInput').value.trim();
+            const name = document.getElementById('nameInput').value.trim();
+            const phone = document.getElementById('phoneInput').value.trim();
+            const instructions = document.getElementById('instructionsInput').value.trim();
+            
+            if (!area) { showToast('Please select area', 'error'); return; }
+            if (area === 'north_nazimabad' && !block) { showToast('Please select block', 'error'); return; }
+            if (!address) { showToast('Please enter address', 'error'); return; }
+            if (!name) { showToast('Please enter name', 'error'); return; }
+            if (!phone) { showToast('Please enter phone', 'error'); return; }
+            
+            savedCustomerData = {
+                area, block, address, name, phone, instructions,
+                gpsLocation: gpsLocation
+            };
+            
+            // Show saved banner
+            const areaNames = {
+                'north_nazimabad': 'North Nazimabad',
+                'nazimabad': 'Nazimabad',
+                'gulshan': 'Gulshan-e-Iqbal',
+                'dha': 'DHA',
+                'clifton': 'Clifton',
+                'saddar': 'Saddar',
+                'kharadar': 'Kharadar',
+                'lyari': 'Lyari',
+                'korangi': 'Korangi',
+                'landhi': 'Landhi',
+                'malir': 'Malir',
+                'shah_faisal': 'Shah Faisal Colony',
+                'liaquatabad': 'Liaquatabad',
+                'fb_area': 'F.B. Area',
+                'johar': 'Gulistan-e-Johar',
+                'other': 'Other Karachi Area'
+            };
+            
+            const banner = document.getElementById('savedInfoBanner');
+            const details = document.getElementById('savedInfoDetails');
+            
+            details.innerHTML = `
+                <strong>${name}</strong> | ${phone}<br>
+                ${areaNames[area]}${block ? ' - Block ' + block : ''}<br>
+                ${address}
+            `;
+            
+            banner.classList.add('show');
+            document.getElementById('locationSection').style.display = 'none';
+            
+            showToast('Information saved successfully!');
+        }
+
+        function checkSavedInfo() {
+            // Check if info already saved (in real app, use localStorage)
+            // For now, just hide banner initially
+        }
+
+        function editSavedInfo() {
+            document.getElementById('savedInfoBanner').classList.remove('show');
+            document.getElementById('locationSection').style.display = 'block';
+            
+            // Restore values
+            if (savedCustomerData) {
+                document.getElementById('areaSelect').value = savedCustomerData.area;
+                document.getElementById('blockSelect').value = savedCustomerData.block;
+                document.getElementById('addressInput').value = savedCustomerData.address;
+                document.getElementById('nameInput').value = savedCustomerData.name;
+                document.getElementById('phoneInput').value = savedCustomerData.phone;
+                document.getElementById('instructionsInput').value = savedCustomerData.instructions;
+                updateBlockOptions();
+            }
+        }
+
+        // GPS Detection
         function detectLocation() {
             const btn = document.getElementById('gpsBtn');
             const status = document.getElementById('locationStatus');
             
             btn.disabled = true;
-            btn.innerHTML = '<span>⏳</span> Detecting Location...';
+            btn.innerHTML = '<span>⏳</span> Detecting...';
             
             if (!navigator.geolocation) {
-                showLocationError('Geolocation is not supported by your browser');
+                showLocationError('Geolocation not supported');
                 return;
             }
             
@@ -1123,21 +1322,15 @@
                     
                     status.className = 'location-status success show';
                     status.innerHTML = `
-                        ✅ <strong>Location Detected!</strong><br>
-                        📍 Coordinates: ${gpsLocation.lat.toFixed(4)}, ${gpsLocation.lng.toFixed(4)}<br>
-                        🎯 Accuracy: ${Math.round(gpsLocation.accuracy)} meters<br>
-                        <a href="${mapsUrl}" target="_blank" class="map-link">View on Google Maps →</a>
+                        ✅ Location Saved!<br>
+                        <a href="${mapsUrl}" target="_blank" class="map-link">View on Map</a>
                     `;
                     
-                    btn.innerHTML = '<span>✓</span> Location Saved';
+                    btn.innerHTML = '<span>✓</span> Location Captured';
                     btn.style.background = '#4CAF50';
                 },
                 (error) => {
-                    let msg = 'Unable to detect location';
-                    if (error.code === 1) msg = 'Location access denied. Please enable permissions.';
-                    else if (error.code === 2) msg = 'Location unavailable.';
-                    else if (error.code === 3) msg = 'Request timed out.';
-                    showLocationError(msg);
+                    showLocationError('Unable to detect. Please enter manually.');
                 },
                 { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
             );
@@ -1148,32 +1341,29 @@
             const status = document.getElementById('locationStatus');
             
             status.className = 'location-status error show';
-            status.innerHTML = `❌ ${msg}<br><small>Please enter your address manually</small>`;
+            status.innerHTML = `❌ ${msg}`;
             
             btn.disabled = false;
             btn.innerHTML = '<span>🔄</span> Try Again';
         }
 
-        // Place Order
+        // Place Order - NO REDIRECT, SILENT WHATSAPP
         function placeOrder() {
-            // Validation
             if (cart.length === 0) {
-                alert('Please add items to your cart');
+                showToast('Please add items to cart', 'error');
                 return;
             }
             
-            const area = document.getElementById('areaSelect').value;
-            const block = document.getElementById('blockSelect').value;
-            const address = document.getElementById('addressInput').value.trim();
-            const name = document.getElementById('nameInput').value.trim();
-            const phone = document.getElementById('phoneInput').value.trim();
-            const instructions = document.getElementById('instructionsInput').value.trim();
+            if (!savedCustomerData) {
+                showToast('Please save your information first', 'error');
+                document.getElementById('locationSection').scrollIntoView({ behavior: 'smooth' });
+                return;
+            }
             
-            if (!area) { alert('Please select your area'); return; }
-            if (area === 'north_nazimabad' && !block) { alert('Please select your block'); return; }
-            if (!address) { alert('Please enter your complete address'); return; }
-            if (!name) { alert('Please enter your name'); return; }
-            if (!phone) { alert('Please enter your phone number'); return; }
+            const btn = document.getElementById('placeOrderBtn');
+            btn.disabled = true;
+            btn.classList.add('processing');
+            btn.innerHTML = '<span>⏳</span> Processing...';
             
             // Generate Order Number
             const orderNum = `THK${String(orderCounter).padStart(3, '0')}`;
@@ -1184,14 +1374,15 @@
             let deliveryCharge = 100;
             let isFree = false;
             
-            if (area === 'north_nazimabad' && FREE_DELIVERY_BLOCKS.includes(block)) {
+            if (savedCustomerData.area === 'north_nazimabad' && 
+                FREE_DELIVERY_BLOCKS.includes(savedCustomerData.block)) {
                 deliveryCharge = 0;
                 isFree = true;
             }
             
             const total = subtotal + deliveryCharge;
             
-            // Area names mapping
+            // Area names
             const areaNames = {
                 'north_nazimabad': 'North Nazimabad',
                 'nazimabad': 'Nazimabad',
@@ -1217,60 +1408,62 @@
             message += `━━━━━━━━━━━━━━━━━━━━%0A%0A`;
             
             message += `👤 *Customer:*%0A`;
-            message += `Name: ${name}%0A`;
-            message += `Phone: ${phone}%0A%0A`;
+            message += `Name: ${savedCustomerData.name}%0A`;
+            message += `Phone: ${savedCustomerData.phone}%0A%0A`;
             
             message += `📍 *Delivery Location (Karachi):*%0A`;
-            message += `Area: ${areaNames[area]}%0A`;
-            if (block) message += `Block: ${block}%0A`;
-            message += `Address: ${address}%0A`;
-            if (instructions) message += `Instructions: ${instructions}%0A`;
+            message += `Area: ${areaNames[savedCustomerData.area]}%0A`;
+            if (savedCustomerData.block) message += `Block: ${savedCustomerData.block}%0A`;
+            message += `Address: ${savedCustomerData.address}%0A`;
+            if (savedCustomerData.instructions) message += `Instructions: ${savedCustomerData.instructions}%0A`;
             
-            if (gpsLocation) {
-                message += `%0A🗺️ *GPS Location:*%0A`;
-                message += `https://www.google.com/maps?q=${gpsLocation.lat},${gpsLocation.lng}%0A`;
+            if (savedCustomerData.gpsLocation) {
+                message += `%0A🗺️ *GPS:* https://www.google.com/maps?q=${savedCustomerData.gpsLocation.lat},${savedCustomerData.gpsLocation.lng}%0A`;
             }
             
             message += `%0A━━━━━━━━━━━━━━━━━━━━%0A`;
-            message += `🛒 *Order Items:*%0A`;
+            message += `🛒 *Items:*%0A`;
             cart.forEach((item, i) => {
                 message += `${i+1}. ${item.name} (${item.size.toUpperCase()}) x${item.quantity} = Rs.${item.price * item.quantity}%0A`;
             });
             
-            message += `%0A💰 *Bill Summary:*%0A`;
+            message += `%0A💰 *Bill:*%0A`;
             message += `Subtotal: Rs. ${subtotal}%0A`;
             message += `Delivery: ${isFree ? 'FREE' : 'Rs. ' + deliveryCharge}%0A`;
             message += `*TOTAL: Rs. ${total}*%0A`;
             message += `%0A⏰ ${new Date().toLocaleString()}%0A`;
             message += `━━━━━━━━━━━━━━━━━━━━%0A`;
-            message += `Please confirm this order.`;
+            message += `Please confirm order.`;
             
-            // Send to WhatsApp (background)
-            window.open(`https://wa.me/${OWNER_WHATSAPP}?text=${message}`, '_blank');
+            // METHOD 1: Try to open in hidden iframe (might not work due to restrictions)
+            // const iframe = document.getElementById('whatsappFrame');
+            // iframe.src = `https://wa.me/${OWNER_WHATSAPP}?text=${message}`;
             
-            // Show success to customer
-            showSuccessModal(orderNum);
+            // METHOD 2: Open in new tab but immediately show modal (user stays on site visually)
+            const whatsappWindow = window.open(`https://wa.me/${OWNER_WHATSAPP}?text=${message}`, '_blank');
             
-            // Reset everything
-            cart = [];
-            selectedSizes = {};
-            gpsLocation = null;
-            updateCart();
-            
-            // Clear form
-            document.getElementById('areaSelect').value = '';
-            document.getElementById('blockSelect').value = '';
-            document.getElementById('blockGroup').style.display = 'none';
-            document.getElementById('addressInput').value = '';
-            document.getElementById('nameInput').value = '';
-            document.getElementById('phoneInput').value = '';
-            document.getElementById('instructionsInput').value = '';
-            document.getElementById('locationStatus').className = 'location-status';
-            document.getElementById('gpsBtn').innerHTML = '<span>📡</span> Auto-Detect My Location (GPS)';
-            document.getElementById('gpsBtn').style.background = '';
-            document.getElementById('gpsBtn').disabled = false;
-            
-            toggleCart();
+            // Immediately show success modal (don't wait)
+            setTimeout(() => {
+                showSuccessModal(orderNum);
+                
+                // Reset
+                cart = [];
+                selectedSizes = {};
+                updateCart();
+                
+                // Reset button
+                btn.disabled = false;
+                btn.classList.remove('processing');
+                btn.innerHTML = '<span>📱</span> Place Order';
+                
+                // Close cart
+                toggleCart();
+                
+                // Optional: Close the WhatsApp tab after few seconds (if browser allows)
+                // if (whatsappWindow && !whatsappWindow.closed) {
+                //     setTimeout(() => whatsappWindow.close(), 2000);
+                // }
+            }, 500);
         }
 
         function showSuccessModal(orderNum) {
@@ -1280,13 +1473,13 @@
 
         function closeSuccessModal() {
             document.getElementById('successModal').classList.remove('show');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function showToast() {
+        function showToast(msg, type = 'success') {
             const toast = document.getElementById('toast');
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 2000);
+            toast.textContent = msg;
+            toast.className = 'toast show' + (type === 'error' ? ' error-toast' : '');
+            setTimeout(() => toast.classList.remove('show'), 3000);
         }
     </script>
 </body>
