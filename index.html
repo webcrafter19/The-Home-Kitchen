@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Home Kitchen - Karachi Only</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-red: #c41e3a;
+            --dark-red: #8b0000;
+            --golden: #ffd700;
+            --whatsapp-green: #25d366;
+            --free: #4CAF50;
+            --paid: #FF9800;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(196, 30, 58, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 215, 0, 0.2) 0%, transparent 50%);
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .chef-hat {
+            font-size: 4rem;
+            animation: bounce 2s infinite;
+            filter: drop-shadow(0 5px 15px rgba(255,215,0,0.5));
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            color: var(--golden);
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.5);
+            margin: 10px 0;
+            background: linear-gradient(45deg, #ffd700, #ffed4e, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% auto;
+            animation: shine 3s linear infinite;
+        }
+
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
+
+        .tagline {
+            color: #fff;
+            font-size: 1.2rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-top: 10px;
+        }
+
+        .tagline span {
+            color: var(--golden);
+            font-weight: 600;
+        }
+
+        .karachi-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(45deg, #2196F3, #1976D2);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-top: 20px;
+            box-shadow: 0 5px 20px rgba(33, 150, 243, 0.4);
+        }
+
+        .delivery-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(45deg, var(--free), #45a049);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-top: 15px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Location Section */
+        .location-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px 0;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .section-title {
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--golden);
+            margin-bottom: 10px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #aaa;
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+        }
+
+        .location-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .location-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            color: #aaa;
+            font-size: 0.9rem;
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-input, .form-select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid rgba(255,215,0,0.3);
+            border-radius: 12px;
+            background: rgba(0,0,0,0.3);
+            color: white;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s;
+        }
+
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            border-color: var(--golden);
+            box-shadow: 0 0 10px rgba(255,215,0,0.2);
+        }
+
+        .area-select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23ffd700' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 20px;
+            padding-right: 50px;
+        }
+
+        .gps-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, #2196F3, #1976D2);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s;
+            margin-bottom: 10px;
+        }
+
+        .gps-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(33, 150, 243, 0.4);
+        }
+
+        .gps-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .location-status {
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 15px;
+            font-size: 0.95rem;
+            display: none;
+            line-height: 1.6;
+        }
+
+        .location-status.show {
+            display: block;
+        }
+
+        .location-status.success {
+            background: rgba(76, 175, 80, 0.15);
+            color: #4CAF50;
+            border: 2px solid #4CAF50;
+        }
+
+        .location-status.error {
+            background: rgba(244, 67, 54, 0.15);
+            color: #f44336;
+            border: 2px solid #f44336;
+        }
+
+        .map-link {
+            display: inline-block;
+            margin-top: 8px;
+            color: #2196F3;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* Menu Section */
+        .menu-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 40px;
+            margin: 30px 0;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .menu-title {
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--golden);
+            margin-bottom: 40px;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .menu-item {
+            background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s;
+            border: 2px solid transparent;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-10px);
+            border-color: var(--golden);
+            box-shadow: 0 20px 40px rgba(196, 30, 58, 0.3);
+        }
+
+        .item-image {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .item-content {
+            padding: 25px;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .item-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: #fff;
+            font-style: italic;
+        }
+
+        .item-badge {
+            background: var(--primary-red);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        .size-selector {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .size-option {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid rgba(255,215,0,0.3);
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: rgba(0,0,0,0.2);
+            color: #fff;
+        }
+
+        .size-option.active {
+            background: var(--primary-red);
+            border-color: var(--golden);
+            transform: scale(1.05);
+        }
+
+        .size-option .price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--golden);
+            display: block;
+            margin-top: 5px;
+        }
+
+        .add-to-cart {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, var(--primary-red), var(--dark-red));
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+        }
+
+        .add-to-cart:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(196, 30, 58, 0.4);
+        }
+
+        /* Cart Sidebar */
+        .cart-section {
+            position: fixed;
+            right: -500px;
+            top: 0;
+            width: 500px;
+            height: 100vh;
+            background: linear-gradient(180deg, #1a1a2e 0%, #0f0f1e 100%);
+            z-index: 1000;
+            transition: right 0.4s;
+            box-shadow: -10px 0 50px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            border-left: 3px solid var(--golden);
+            overflow-y: auto;
+        }
+
+        .cart-section.open {
+            right: 0;
+        }
+
+        .cart-header {
+            padding: 30px;
+            background: linear-gradient(135deg, var(--primary-red), var(--dark-red));
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .cart-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+        }
+
+        .close-cart {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+
+        .cart-items {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .cart-item {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255,215,0,0.1);
+        }
+
+        .cart-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .cart-item-name {
+            color: var(--golden);
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .remove-item {
+            background: rgba(196, 30, 58, 0.3);
+            border: none;
+            color: #ff6b6b;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .qty-btn {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            border: 2px solid var(--golden);
+            background: transparent;
+            color: var(--golden);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .qty-btn:hover {
+            background: var(--golden);
+            color: #000;
+        }
+
+        .qty-display {
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .cart-item-price {
+            color: var(--golden);
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-top: 10px;
+            text-align: right;
+        }
+
+        /* Delivery Summary in Cart */
+        .delivery-summary {
+            padding: 20px;
+            background: rgba(255, 215, 0, 0.05);
+            border-top: 2px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .delivery-row {
+            display: flex;
+            justify-content: space-between;
+            color: #aaa;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+        }
+
+        .delivery-row.total {
+            color: white;
+            font-size: 1.3rem;
+            font-weight: 700;
+            border-top: 1px solid rgba(255,215,0,0.3);
+            padding-top: 15px;
+            margin-top: 15px;
+        }
+
+        .delivery-row .amount {
+            color: var(--golden);
+        }
+
+        .free-tag {
+            color: var(--free);
+            font-weight: 600;
+        }
+
+        .paid-tag {
+            color: var(--paid);
+            font-weight: 600;
+        }
+
+        .cart-footer {
+            padding: 30px;
+            background: rgba(0,0,0,0.3);
+            border-top: 2px solid rgba(255,215,0,0.2);
+            position: sticky;
+            bottom: 0;
+        }
+
+        .place-order-btn {
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(45deg, var(--whatsapp-green), #128c7e);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-transform: uppercase;
+            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.3);
+        }
+
+        .place-order-btn:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(37, 211, 102, 0.5);
+        }
+
+        .place-order-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Cart Toggle */
+        .cart-toggle {
+            position: fixed;
+            right: 30px;
+            top: 30px;
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary-red), var(--dark-red));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 999;
+            box-shadow: 0 10px 30px rgba(196, 30, 58, 0.4);
+            border: 3px solid var(--golden);
+            transition: all 0.3s;
+        }
+
+        .cart-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .cart-icon {
+            font-size: 2rem;
+            color: white;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--golden);
+            color: #000;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            animation: pulse 2s infinite;
+        }
+
+        /* Success Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 5000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .success-modal {
+            background: linear-gradient(145deg, #1a1a2e, #0f0f1e);
+            border: 3px solid var(--golden);
+            border-radius: 30px;
+            padding: 50px;
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+            animation: modalPop 0.5s ease;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+
+        @keyframes modalPop {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .success-icon {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            animation: checkmark 0.5s ease;
+        }
+
+        @keyframes checkmark {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .success-title {
+            color: var(--golden);
+            font-size: 2.2rem;
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 15px;
+        }
+
+        .success-message {
+            color: #aaa;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .order-number-box {
+            background: rgba(255,215,0,0.1);
+            border: 2px dashed var(--golden);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .order-label {
+            color: #aaa;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .order-number {
+            color: var(--golden);
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+        }
+
+        .close-modal-btn {
+            padding: 15px 40px;
+            background: linear-gradient(45deg, var(--primary-red), var(--dark-red));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .close-modal-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(196, 30, 58, 0.4);
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: linear-gradient(45deg, var(--whatsapp-green), #128c7e);
+            color: white;
+            padding: 20px 40px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            z-index: 2000;
+            opacity: 0;
+            transition: all 0.4s;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        .error-toast {
+            background: linear-gradient(45deg, #f44336, #d32f2f);
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .menu-grid { grid-template-columns: 1fr; }
+            .cart-section { width: 100%; right: -100%; }
+            .success-modal { padding: 30px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <!-- Cart Toggle -->
+    <div class="cart-toggle" onclick="toggleCart()">
+        <span class="cart-icon">🛒</span>
+        <span class="cart-count" id="cartCount">0</span>
+    </div>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-section" id="cartSection">
+        <div class="cart-header">
+            <h2>Your Order</h2>
+            <button class="close-cart" onclick="toggleCart()">×</button>
+        </div>
+        
+        <div class="cart-items" id="cartItems">
+            <p style="color: #666; text-align: center; margin-top: 50px; padding: 20px;">Your cart is empty</p>
+        </div>
+
+        <div class="delivery-summary" id="deliverySummary" style="display: none;">
+            <div class="delivery-row">
+                <span>Subtotal:</span>
+                <span class="amount" id="subtotalAmount">Rs. 0</span>
+            </div>
+            <div class="delivery-row">
+                <span>Delivery:</span>
+                <span id="deliveryText">FREE</span>
+            </div>
+            <div class="delivery-row total">
+                <span>Total:</span>
+                <span class="amount" id="totalAmount">Rs. 0</span>
+            </div>
+        </div>
+
+        <div class="cart-footer">
+            <button class="place-order-btn" id="placeOrderBtn" onclick="placeOrder()">
+                <span>📱</span> Place Order
+            </button>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal-overlay" id="successModal">
+        <div class="success-modal">
+            <div class="success-icon">✅</div>
+            <h2 class="success-title">Order Placed Successfully!</h2>
+            <p class="success-message">
+                Thank you for your order! We have received your details and will contact you shortly for confirmation.
+            </p>
+            <div class="order-number-box">
+                <div class="order-label">Your Order Number</div>
+                <div class="order-number" id="orderNumberDisplay">#THK001</div>
+            </div>
+            <button class="close-modal-btn" onclick="closeSuccessModal()">Place New Order</button>
+        </div>
+    </div>
+
+    <header>
+        <div class="chef-hat">👨‍🍳</div>
+        <h1>The Home Kitchen</h1>
+        <p class="tagline">
+            <span>Freshly Baked</span> • <span>Homemade</span> • <span>Delivered to Your Door</span>
+        </p>
+        <div class="karachi-badge">
+            <span>📍</span>
+            <span>Serving Karachi Only</span>
+        </div>
+        <div class="delivery-badge">
+            <span>🚚</span>
+            <span>FREE: North Nazimabad Blocks A-N | Other Areas: Rs. 100</span>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Location Section -->
+        <section class="location-section">
+            <h2 class="section-title">📍 Delivery Location</h2>
+            <p class="section-subtitle">We currently deliver only in Karachi. Select your area below.</p>
+            
+            <div class="location-grid">
+                <div>
+                    <div class="form-group">
+                        <label>Select Area *</label>
+                        <select class="form-select area-select" id="areaSelect" onchange="updateDelivery()">
+                            <option value="">-- Select Your Area --</option>
+                            <option value="north_nazimabad">North Nazimabad</option>
+                            <option value="nazimabad">Nazimabad</option>
+                            <option value="gulshan">Gulshan-e-Iqbal</option>
+                            <option value="dha">DHA</option>
+                            <option value="clifton">Clifton</option>
+                            <option value="saddar">Saddar</option>
+                            <option value="kharadar">Kharadar</option>
+                            <option value="lyari">Lyari</option>
+                            <option value="korangi">Korangi</option>
+                            <option value="landhi">Landhi</option>
+                            <option value="malir">Malir</option>
+                            <option value="shah_faisal">Shah Faisal Colony</option>
+                            <option value="liaquatabad">Liaquatabad</option>
+                            <option value="fb_area">F.B. Area</option>
+                            <option value="johar">Gulistan-e-Johar</option>
+                            <option value="other">Other Karachi Area</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group" id="blockGroup" style="display: none;">
+                        <label>Block *</label>
+                        <select class="form-select area-select" id="blockSelect" onchange="updateDelivery()">
+                            <option value="">-- Select Block --</option>
+                            <option value="A">Block A</option>
+                            <option value="B">Block B</option>
+                            <option value="C">Block C</option>
+                            <option value="D">Block D</option>
+                            <option value="E">Block E</option>
+                            <option value="F">Block F</option>
+                            <option value="G">Block G</option>
+                            <option value="H">Block H</option>
+                            <option value="K">Block K</option>
+                            <option value="L">Block L</option>
+                            <option value="M">Block M</option>
+                            <option value="N">Block N</option>
+                            <option value="other">Other Block</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="form-group">
+                        <label>Complete Address *</label>
+                        <input type="text" class="form-input" id="addressInput" placeholder="House #, Street, Near Landmark">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Your Name *</label>
+                        <input type="text" class="form-input" id="nameInput" placeholder="Enter your full name">
+                    </div>
+                </div>
+            </div>
+
+            <button class="gps-btn" id="gpsBtn" onclick="detectLocation()">
+                <span>📡</span> Auto-Detect My Location (GPS)
+            </button>
+            
+            <div class="location-status" id="locationStatus"></div>
+
+            <div class="form-group" style="margin-top: 20px;">
+                <label>Phone Number *</label>
+                <input type="tel" class="form-input" id="phoneInput" placeholder="03XX-XXXXXXX">
+            </div>
+
+            <div class="form-group">
+                <label>Delivery Instructions (Optional)</label>
+                <input type="text" class="form-input" id="instructionsInput" placeholder="Ring bell twice, Leave at gate, etc.">
+            </div>
+        </section>
+
+        <!-- Menu Section -->
+        <section class="menu-section">
+            <h2 class="menu-title">Our Menu</h2>
+            <div class="menu-grid" id="menuGrid"></div>
+        </section>
+    </div>
+
+    <div class="toast" id="toast">Added to cart! ✓</div>
+
+    <script>
+        // Configuration - KARACHI ONLY
+        const FREE_DELIVERY_BLOCKS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'K', 'L', 'M', 'N'];
+        const OWNER_WHATSAPP = '923222181352';
+        let orderCounter = 1;
+
+        // Menu Data
+        const menuItems = [
+            {
+                id: 1,
+                name: "Pasta",
+                image: "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=400",
+                description: "Creamy homemade pasta with special sauce",
+                prices: { small: 350, large: 600 }
+            },
+            {
+                id: 2,
+                name: "Lazania",
+                image: "https://images.unsplash.com/photo-1574868235872-be9f87e0cf8b?w=400",
+                description: "Layered pasta with rich meat sauce and cheese",
+                prices: { small: 350, large: 600 }
+            },
+            {
+                id: 3,
+                name: "Pizza Fries",
+                image: "https://images.unsplash.com/photo-1630384060421-cb20d0e0649d?w=400",
+                description: "Crispy fries topped with pizza sauce and cheese",
+                prices: { small: 350, large: 600 }
+            }
+        ];
+
+        let cart = [];
+        let selectedSizes = {};
+        let gpsLocation = null;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            renderMenu();
+        });
+
+        function renderMenu() {
+            const grid = document.getElementById('menuGrid');
+            grid.innerHTML = menuItems.map(item => `
+                <div class="menu-item">
+                    <div class="item-image" style="background-image: url('${item.image}')"></div>
+                    <div class="item-content">
+                        <div class="item-header">
+                            <h3 class="item-name">${item.name}</h3>
+                            <span class="item-badge">Popular</span>
+                        </div>
+                        <p style="color: #aaa; margin-bottom: 15px;">${item.description}</p>
+                        <div class="size-selector">
+                            <div class="size-option ${selectedSizes[item.id] === 'small' ? 'active' : ''}" 
+                                 onclick="selectSize(${item.id}, 'small')">
+                                <span style="font-size: 0.9rem;">Small</span>
+                                <span class="price">Rs. ${item.prices.small}</span>
+                            </div>
+                            <div class="size-option ${selectedSizes[item.id] === 'large' ? 'active' : ''}" 
+                                 onclick="selectSize(${item.id}, 'large')">
+                                <span style="font-size: 0.9rem;">Large</span>
+                                <span class="price">Rs. ${item.prices.large}</span>
+                            </div>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart(${item.id})">Add to Order</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateDelivery() {
+            const area = document.getElementById('areaSelect').value;
+            const blockGroup = document.getElementById('blockGroup');
+            
+            // Show block selection only for North Nazimabad
+            if (area === 'north_nazimabad') {
+                blockGroup.style.display = 'block';
+            } else {
+                blockGroup.style.display = 'none';
+                document.getElementById('blockSelect').value = '';
+            }
+            
+            updateCart();
+        }
+
+        function selectSize(itemId, size) {
+            selectedSizes[itemId] = size;
+            renderMenu();
+        }
+
+        function addToCart(itemId) {
+            const item = menuItems.find(i => i.id === itemId);
+            const size = selectedSizes[itemId] || 'small';
+            const price = item.prices[size];
+            
+            const existing = cart.find(i => i.id === itemId && i.size === size);
+            if (existing) {
+                existing.quantity++;
+            } else {
+                cart.push({ id: itemId, name: item.name, size, price, quantity: 1 });
+            }
+            
+            updateCart();
+            showToast();
+        }
+
+        function updateCart() {
+            const cartItems = document.getElementById('cartItems');
+            const cartCount = document.getElementById('cartCount');
+            const subtotalEl = document.getElementById('subtotalAmount');
+            const deliveryText = document.getElementById('deliveryText');
+            const totalEl = document.getElementById('totalAmount');
+            const summary = document.getElementById('deliverySummary');
+            
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            
+            cartCount.textContent = totalItems;
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<p style="color: #666; text-align: center; margin-top: 50px; padding: 20px;">Your cart is empty</p>';
+                summary.style.display = 'none';
+                return;
+            }
+            
+            summary.style.display = 'block';
+            
+            // Calculate delivery for Karachi
+            const area = document.getElementById('areaSelect').value;
+            const block = document.getElementById('blockSelect').value;
+            let deliveryCharge = 100; // Default for Karachi
+            let isFree = false;
+            
+            // Free only for North Nazimabad specific blocks
+            if (area === 'north_nazimabad' && FREE_DELIVERY_BLOCKS.includes(block)) {
+                deliveryCharge = 0;
+                isFree = true;
+            }
+            
+            cartItems.innerHTML = cart.map((item, index) => `
+                <div class="cart-item">
+                    <div class="cart-item-header">
+                        <span class="cart-item-name">${item.name}</span>
+                        <button class="remove-item" onclick="removeFromCart(${index})">×</button>
+                    </div>
+                    <div style="color: #aaa; font-size: 0.9rem;">Size: ${item.size.toUpperCase()}</div>
+                    <div class="quantity-control">
+                        <button class="qty-btn" onclick="updateQuantity(${index}, -1)">-</button>
+                        <span class="qty-display">${item.quantity}</span>
+                        <button class="qty-btn" onclick="updateQuantity(${index}, 1)">+</button>
+                    </div>
+                    <div class="cart-item-price">Rs. ${item.price * item.quantity}</div>
+                </div>
+            `).join('');
+            
+            subtotalEl.textContent = `Rs. ${subtotal}`;
+            deliveryText.innerHTML = isFree ? '<span class="free-tag">FREE</span>' : `<span class="paid-tag">Rs. ${deliveryCharge}</span>`;
+            totalEl.textContent = `Rs. ${subtotal + deliveryCharge}`;
+        }
+
+        function updateQuantity(index, change) {
+            cart[index].quantity += change;
+            if (cart[index].quantity <= 0) cart.splice(index, 1);
+            updateCart();
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCart();
+        }
+
+        function toggleCart() {
+            document.getElementById('cartSection').classList.toggle('open');
+            updateCart();
+        }
+
+        // GPS Location Detection
+        function detectLocation() {
+            const btn = document.getElementById('gpsBtn');
+            const status = document.getElementById('locationStatus');
+            
+            btn.disabled = true;
+            btn.innerHTML = '<span>⏳</span> Detecting Location...';
+            
+            if (!navigator.geolocation) {
+                showLocationError('Geolocation is not supported by your browser');
+                return;
+            }
+            
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    gpsLocation = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude,
+                        accuracy: position.coords.accuracy
+                    };
+                    
+                    const mapsUrl = `https://www.google.com/maps?q=${gpsLocation.lat},${gpsLocation.lng}`;
+                    
+                    status.className = 'location-status success show';
+                    status.innerHTML = `
+                        ✅ <strong>Location Detected!</strong><br>
+                        📍 Coordinates: ${gpsLocation.lat.toFixed(4)}, ${gpsLocation.lng.toFixed(4)}<br>
+                        🎯 Accuracy: ${Math.round(gpsLocation.accuracy)} meters<br>
+                        <a href="${mapsUrl}" target="_blank" class="map-link">View on Google Maps →</a>
+                    `;
+                    
+                    btn.innerHTML = '<span>✓</span> Location Saved';
+                    btn.style.background = '#4CAF50';
+                },
+                (error) => {
+                    let msg = 'Unable to detect location';
+                    if (error.code === 1) msg = 'Location access denied. Please enable permissions.';
+                    else if (error.code === 2) msg = 'Location unavailable.';
+                    else if (error.code === 3) msg = 'Request timed out.';
+                    showLocationError(msg);
+                },
+                { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+            );
+        }
+
+        function showLocationError(msg) {
+            const btn = document.getElementById('gpsBtn');
+            const status = document.getElementById('locationStatus');
+            
+            status.className = 'location-status error show';
+            status.innerHTML = `❌ ${msg}<br><small>Please enter your address manually</small>`;
+            
+            btn.disabled = false;
+            btn.innerHTML = '<span>🔄</span> Try Again';
+        }
+
+        // Place Order
+        function placeOrder() {
+            // Validation
+            if (cart.length === 0) {
+                alert('Please add items to your cart');
+                return;
+            }
+            
+            const area = document.getElementById('areaSelect').value;
+            const block = document.getElementById('blockSelect').value;
+            const address = document.getElementById('addressInput').value.trim();
+            const name = document.getElementById('nameInput').value.trim();
+            const phone = document.getElementById('phoneInput').value.trim();
+            const instructions = document.getElementById('instructionsInput').value.trim();
+            
+            if (!area) { alert('Please select your area'); return; }
+            if (area === 'north_nazimabad' && !block) { alert('Please select your block'); return; }
+            if (!address) { alert('Please enter your complete address'); return; }
+            if (!name) { alert('Please enter your name'); return; }
+            if (!phone) { alert('Please enter your phone number'); return; }
+            
+            // Generate Order Number
+            const orderNum = `THK${String(orderCounter).padStart(3, '0')}`;
+            orderCounter++;
+            
+            // Calculate totals
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            let deliveryCharge = 100;
+            let isFree = false;
+            
+            if (area === 'north_nazimabad' && FREE_DELIVERY_BLOCKS.includes(block)) {
+                deliveryCharge = 0;
+                isFree = true;
+            }
+            
+            const total = subtotal + deliveryCharge;
+            
+            // Area names mapping
+            const areaNames = {
+                'north_nazimabad': 'North Nazimabad',
+                'nazimabad': 'Nazimabad',
+                'gulshan': 'Gulshan-e-Iqbal',
+                'dha': 'DHA',
+                'clifton': 'Clifton',
+                'saddar': 'Saddar',
+                'kharadar': 'Kharadar',
+                'lyari': 'Lyari',
+                'korangi': 'Korangi',
+                'landhi': 'Landhi',
+                'malir': 'Malir',
+                'shah_faisal': 'Shah Faisal Colony',
+                'liaquatabad': 'Liaquatabad',
+                'fb_area': 'F.B. Area',
+                'johar': 'Gulistan-e-Johar',
+                'other': 'Other Karachi Area'
+            };
+            
+            // Build WhatsApp Message
+            let message = `🍽️ *NEW ORDER - The Home Kitchen*%0A%0A`;
+            message += `📋 *Order #:* ${orderNum}%0A`;
+            message += `━━━━━━━━━━━━━━━━━━━━%0A%0A`;
+            
+            message += `👤 *Customer:*%0A`;
+            message += `Name: ${name}%0A`;
+            message += `Phone: ${phone}%0A%0A`;
+            
+            message += `📍 *Delivery Location (Karachi):*%0A`;
+            message += `Area: ${areaNames[area]}%0A`;
+            if (block) message += `Block: ${block}%0A`;
+            message += `Address: ${address}%0A`;
+            if (instructions) message += `Instructions: ${instructions}%0A`;
+            
+            if (gpsLocation) {
+                message += `%0A🗺️ *GPS Location:*%0A`;
+                message += `https://www.google.com/maps?q=${gpsLocation.lat},${gpsLocation.lng}%0A`;
+            }
+            
+            message += `%0A━━━━━━━━━━━━━━━━━━━━%0A`;
+            message += `🛒 *Order Items:*%0A`;
+            cart.forEach((item, i) => {
+                message += `${i+1}. ${item.name} (${item.size.toUpperCase()}) x${item.quantity} = Rs.${item.price * item.quantity}%0A`;
+            });
+            
+            message += `%0A💰 *Bill Summary:*%0A`;
+            message += `Subtotal: Rs. ${subtotal}%0A`;
+            message += `Delivery: ${isFree ? 'FREE' : 'Rs. ' + deliveryCharge}%0A`;
+            message += `*TOTAL: Rs. ${total}*%0A`;
+            message += `%0A⏰ ${new Date().toLocaleString()}%0A`;
+            message += `━━━━━━━━━━━━━━━━━━━━%0A`;
+            message += `Please confirm this order.`;
+            
+            // Send to WhatsApp (background)
+            window.open(`https://wa.me/${OWNER_WHATSAPP}?text=${message}`, '_blank');
+            
+            // Show success to customer
+            showSuccessModal(orderNum);
+            
+            // Reset everything
+            cart = [];
+            selectedSizes = {};
+            gpsLocation = null;
+            updateCart();
+            
+            // Clear form
+            document.getElementById('areaSelect').value = '';
+            document.getElementById('blockSelect').value = '';
+            document.getElementById('blockGroup').style.display = 'none';
+            document.getElementById('addressInput').value = '';
+            document.getElementById('nameInput').value = '';
+            document.getElementById('phoneInput').value = '';
+            document.getElementById('instructionsInput').value = '';
+            document.getElementById('locationStatus').className = 'location-status';
+            document.getElementById('gpsBtn').innerHTML = '<span>📡</span> Auto-Detect My Location (GPS)';
+            document.getElementById('gpsBtn').style.background = '';
+            document.getElementById('gpsBtn').disabled = false;
+            
+            toggleCart();
+        }
+
+        function showSuccessModal(orderNum) {
+            document.getElementById('orderNumberDisplay').textContent = '#' + orderNum;
+            document.getElementById('successModal').classList.add('show');
+        }
+
+        function closeSuccessModal() {
+            document.getElementById('successModal').classList.remove('show');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+    </script>
+</body>
+</html>
