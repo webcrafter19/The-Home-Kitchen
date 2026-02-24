@@ -276,10 +276,6 @@
             box-shadow: 0 10px 30px rgba(76, 175, 80, 0.4);
         }
 
-        .save-info-btn.saved {
-            background: linear-gradient(45deg, #2196F3, #1976D2);
-        }
-
         /* Menu Section */
         .menu-section {
             background: rgba(255, 255, 255, 0.05);
@@ -868,7 +864,7 @@
         </div>
         <div class="delivery-badge">
             <span>🚚</span>
-            <span>Free Delievery only for North Nazimabad Block  A-B-C-D-E-F-G-H-K-L-M-N | Nagan: Rs.100 | Power House/Nazimabad: Rs.150 | FB Area: Rs.100-150</span>
+            <span>North Nazimabad A-N: FREE | Nagan: Rs.100 | Power House/Nazimabad: Rs.150 | FB Area: Rs.100-150</span>
         </div>
     </header>
 
@@ -1046,8 +1042,8 @@
                 const blocks = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'Other'];
                 blocks.forEach(block => {
                     const option = document.createElement('option');
-                    option.value = block;
-                    option.textContent = 'Block ' + block;
+                    option.value = block === 'Other' ? 'other' : block;
+                    option.textContent = block === 'Other' ? 'Other Block' : 'Block ' + block;
                     blockSelect.appendChild(option);
                 });
             } else if (area === 'fb_area') {
@@ -1079,7 +1075,7 @@
                 if (block && DELIVERY_CHARGES[area][block] !== undefined) {
                     currentDeliveryCharge = DELIVERY_CHARGES[area][block];
                 } else {
-                    currentDeliveryCharge = 150; // Default
+                    currentDeliveryCharge = 150;
                 }
             } else {
                 currentDeliveryCharge = DELIVERY_CHARGES[area] || 150;
@@ -1128,19 +1124,11 @@
             
             summary.style.display = 'block';
             
-            // Get delivery charge from saved data or current selection
             let deliveryCharge = 0;
             let isFree = false;
             
             if (savedCustomerData) {
-                const area = savedCustomerData.area;
-                const block = savedCustomerData.block;
-                
-                if (area === 'north_nazimabad' || area === 'fb_area') {
-                    deliveryCharge = DELIVERY_CHARGES[area][block] !== undefined ? DELIVERY_CHARGES[area][block] : 150;
-                } else {
-                    deliveryCharge = DELIVERY_CHARGES[area] || 150;
-                }
+                deliveryCharge = savedCustomerData.deliveryCharge;
             } else {
                 deliveryCharge = currentDeliveryCharge;
             }
@@ -1201,7 +1189,6 @@
             if (!name) { showToast('Please enter name', 'error'); return; }
             if (!phone) { showToast('Please enter phone', 'error'); return; }
             
-            // Calculate delivery charge
             let deliveryCharge = 0;
             if (area === 'north_nazimabad' || area === 'fb_area') {
                 deliveryCharge = DELIVERY_CHARGES[area][block] !== undefined ? DELIVERY_CHARGES[area][block] : 150;
@@ -1213,7 +1200,6 @@
                 area, block, address, name, phone, instructions, deliveryCharge
             };
             
-            // Show saved banner
             const areaNames = {
                 'north_nazimabad': 'North Nazimabad',
                 'nagan_chowrangi': 'Nagan Chowrangi',
@@ -1256,7 +1242,7 @@
             }
         }
 
-        // Place Order
+        // FIXED: Proper WhatsApp message encoding
         function placeOrder() {
             if (cart.length === 0) {
                 showToast('Please add items to cart', 'error');
@@ -1274,16 +1260,13 @@
             btn.classList.add('processing');
             btn.innerHTML = '<span>⏳</span> Processing...';
             
-            // Generate Order Number
             const orderNum = `THK${String(orderCounter).padStart(3, '0')}`;
             orderCounter++;
             
-            // Calculate totals
             const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
             const deliveryCharge = savedCustomerData.deliveryCharge;
             const total = subtotal + deliveryCharge;
             
-            // Area names
             const areaNames = {
                 'north_nazimabad': 'North Nazimabad',
                 'nagan_chowrangi': 'Nagan Chowrangi',
@@ -1292,53 +1275,54 @@
                 'fb_area': 'F.B. Area'
             };
             
-            // Build WhatsApp Message
-            let message = `🍽️ *NEW ORDER - The Home Kitchen*%0A%0A`;
-            message += `📋 *Order #:* ${orderNum}%0A`;
-            message += `━━━━━━━━━━━━━━━━━━━━%0A%0A`;
+            // Build message with proper encoding
+            let message = 'NEW ORDER - The Home Kitchen\n\n';
+            message += 'Order #: ' + orderNum + '\n';
+            message += '------------------------\n\n';
             
-            message += `👤 *Customer:*%0A`;
-            message += `Name: ${savedCustomerData.name}%0A`;
-            message += `Phone: ${savedCustomerData.phone}%0A%0A`;
+            message += 'Customer:\n';
+            message += 'Name: ' + savedCustomerData.name + '\n';
+            message += 'Phone: ' + savedCustomerData.phone + '\n\n';
             
-            message += `📍 *Delivery Location (Karachi):*%0A`;
-            message += `Area: ${areaNames[savedCustomerData.area]}%0A`;
-            if (savedCustomerData.block) message += `Block: ${savedCustomerData.block}%0A`;
-            message += `Address: ${savedCustomerData.address}%0A`;
-            if (savedCustomerData.instructions) message += `Instructions: ${savedCustomerData.instructions}%0A`;
+            message += 'Delivery Location (Karachi):\n';
+            message += 'Area: ' + areaNames[savedCustomerData.area] + '\n';
+            if (savedCustomerData.block) message += 'Block: ' + savedCustomerData.block + '\n';
+            message += 'Address: ' + savedCustomerData.address + '\n';
+            if (savedCustomerData.instructions) message += 'Instructions: ' + savedCustomerData.instructions + '\n';
             
-            message += `%0A━━━━━━━━━━━━━━━━━━━━%0A`;
-            message += `🛒 *Items:*%0A`;
+            message += '\n------------------------\n';
+            message += 'Order Items:\n';
             cart.forEach((item, i) => {
-                message += `${i+1}. ${item.name} (${item.size.toUpperCase()}) x${item.quantity} = Rs.${item.price * item.quantity}%0A`;
+                message += (i+1) + '. ' + item.name + ' (' + item.size.toUpperCase() + ') x' + item.quantity + ' = Rs.' + (item.price * item.quantity) + '\n';
             });
             
-            message += `%0A💰 *Bill:*%0A`;
-            message += `Subtotal: Rs. ${subtotal}%0A`;
-            message += `Delivery: ${deliveryCharge === 0 ? 'FREE' : 'Rs. ' + deliveryCharge}%0A`;
-            message += `*TOTAL: Rs. ${total}*%0A`;
-            message += `%0A⏰ ${new Date().toLocaleString()}%0A`;
-            message += `━━━━━━━━━━━━━━━━━━━━%0A`;
-            message += `Please confirm order.`;
+            message += '\nBill Summary:\n';
+            message += 'Subtotal: Rs. ' + subtotal + '\n';
+            message += 'Delivery: ' + (deliveryCharge === 0 ? 'FREE' : 'Rs. ' + deliveryCharge) + '\n';
+            message += 'TOTAL: Rs. ' + total + '\n';
+            message += '\nTime: ' + new Date().toLocaleString() + '\n';
+            message += '------------------------\n';
+            message += 'Please confirm order.';
             
-            // Open WhatsApp in background
-            window.open(`https://wa.me/${OWNER_WHATSAPP}?text=${message}`, '_blank');
+            // Proper URL encoding
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappUrl = 'https://wa.me/' + OWNER_WHATSAPP + '?text=' + encodedMessage;
             
-            // Immediately show success modal
+            // Open WhatsApp
+            window.open(whatsappUrl, '_blank');
+            
+            // Show success modal
             setTimeout(() => {
                 showSuccessModal(orderNum);
                 
-                // Reset
                 cart = [];
                 selectedSizes = {};
                 updateCart();
                 
-                // Reset button
                 btn.disabled = false;
                 btn.classList.remove('processing');
                 btn.innerHTML = '<span>📱</span> Place Order';
                 
-                // Close cart
                 toggleCart();
             }, 500);
         }
