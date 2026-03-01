@@ -108,7 +108,7 @@
             color: white;
             padding: 12px 25px;
             border-radius: 50px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 600;
             margin-top: 15px;
             text-align: center;
@@ -864,7 +864,7 @@
         </div>
         <div class="delivery-badge">
             <span>🚚</span>
-            <span>North Nazimabad A-N: FREE | Nagan: Rs.100 | Power House/Nazimabad: Rs.150 | FB Area: Rs.100-150</span>
+            <span>North Nazimabad A-N: FREE | Other Areas: Rs. 150-250</span>
         </div>
     </header>
 
@@ -890,11 +890,58 @@
                         <label>Select Area *</label>
                         <select class="form-select area-select" id="areaSelect" onchange="updateAreaOptions()">
                             <option value="">-- Select Your Area --</option>
+                            <!-- North Nazimabad -->
                             <option value="north_nazimabad">North Nazimabad</option>
-                            <option value="nagan_chowrangi">Nagan Chowrangi</option>
-                            <option value="power_house">Power House</option>
+                            <!-- Rs. 150 Areas -->
                             <option value="nazimabad">Nazimabad</option>
-                            <option value="fb_area">F.B. Area</option>
+                            <option value="buffer_zone">Buffer Zone</option>
+                            <option value="federal_b_area">Federal B Area</option>
+                            <option value="gulberg">Gulberg</option>
+                            <option value="shadman_town">Shadman Town</option>
+                            <option value="ancholi">Ancholi</option>
+                            <option value="azizabad">Azizabad</option>
+                            <option value="aisha_manzil">Aisha Manzil</option>
+                            <option value="liaquatabad">Liaquatabad</option>
+                            <option value="rizvia_society">Rizvia Society</option>
+                            <option value="gulbahar">Gulbahar</option>
+                            <option value="water_pump">Water Pump</option>
+                            <option value="nagan_chowrangi">Nagan Chowrangi</option>
+                            <option value="north_karachi">North Karachi</option>
+                            <option value="new_karachi">New Karachi</option>
+                            <option value="surjani_town">Surjani Town</option>
+                            <option value="site_area">SITE Area</option>
+                            <option value="golimar">Golimar</option>
+                            <option value="metroville">Metroville</option>
+                            <!-- Rs. 250 Areas -->
+                            <option value="gulshan_e_iqbal">Gulshan-e-Iqbal</option>
+                            <option value="gulistan_e_jauhar">Gulistan-e-Jauhar</option>
+                            <option value="pechs">PECHS</option>
+                            <option value="bahadurabad">Bahadurabad</option>
+                            <option value="saddar">Saddar</option>
+                            <option value="garden">Garden</option>
+                            <option value="tariq_road">Tariq Road</option>
+                            <option value="clifton">Clifton</option>
+                            <option value="dha">DHA</option>
+                            <option value="korangi">Korangi</option>
+                            <option value="landhi">Landhi</option>
+                            <option value="malir">Malir</option>
+                            <option value="shah_faisal_colony">Shah Faisal Colony</option>
+                            <option value="qayyumabad">Qayyumabad</option>
+                            <option value="mehmoodabad">Mehmoodabad</option>
+                            <option value="manzoor_colony">Manzoor Colony</option>
+                            <option value="orangi_town">Orangi Town</option>
+                            <option value="baldia_town">Baldia Town</option>
+                            <option value="lyari">Lyari</option>
+                            <option value="keamari">Keamari</option>
+                            <option value="pib_colony">PIB Colony</option>
+                            <option value="soldier_bazaar">Soldier Bazaar</option>
+                            <option value="jamshed_town">Jamshed Town</option>
+                            <option value="scheme_33">Scheme 33</option>
+                            <option value="safoora_goth">Safoora Goth</option>
+                            <option value="university_road">University Road</option>
+                            <option value="sharah_e_faisal">Shahrah-e-Faisal</option>
+                            <option value="sea_view">Sea View</option>
+                            <option value="hawksbay">Hawksbay</option>
                         </select>
                     </div>
                     
@@ -946,6 +993,7 @@
     <script>
         // Configuration - DELIVERY CHARGES
         const DELIVERY_CHARGES = {
+            // North Nazimabad - Block wise
             'north_nazimabad': {
                 'A': 0, 'B': 0, 'C': 0, 'D': 0, 'E': 0, 'F': 0, 'G': 0, 'H': 0,
                 'K': 0, 'L': 0, 'M': 0, 'N': 0,
@@ -953,14 +1001,56 @@
                 'S': 150, 'T': 150, 'U': 150, 'V': 150, 'W': 150, 'X': 150,
                 'Y': 150, 'Z': 150, 'other': 150
             },
-            'nagan_chowrangi': 100,
-            'power_house': 150,
+            // Rs. 150 Areas
             'nazimabad': 150,
-            'fb_area': {
-                '5': 100, '6': 100, '10': 100, '11': 100, '12': 100, '13': 100,
-                '17': 100, '18': 100, '19': 100, '20': 100,
-                '7': 150, '8': 150, '9': 150, '14': 150, '15': 150, '16': 150
-            }
+            'buffer_zone': 150,
+            'federal_b_area': 150,
+            'gulberg': 150,
+            'shadman_town': 150,
+            'ancholi': 150,
+            'azizabad': 150,
+            'aisha_manzil': 150,
+            'liaquatabad': 150,
+            'rizvia_society': 150,
+            'gulbahar': 150,
+            'water_pump': 150,
+            'nagan_chowrangi': 150,
+            'north_karachi': 150,
+            'new_karachi': 150,
+            'surjani_town': 150,
+            'site_area': 150,
+            'golimar': 150,
+            'metroville': 150,
+            // Rs. 250 Areas
+            'gulshan_e_iqbal': 250,
+            'gulistan_e_jauhar': 250,
+            'pechs': 250,
+            'bahadurabad': 250,
+            'saddar': 250,
+            'garden': 250,
+            'tariq_road': 250,
+            'clifton': 250,
+            'dha': 250,
+            'korangi': 250,
+            'landhi': 250,
+            'malir': 250,
+            'shah_faisal_colony': 250,
+            'qayyumabad': 250,
+            'mehmoodabad': 250,
+            'manzoor_colony': 250,
+            'orangi_town': 250,
+            'baldia_town': 250,
+            'lyari': 250,
+            'keamari': 250,
+            'pib_colony': 250,
+            'soldier_bazaar': 250,
+            'jamshed_town': 250,
+            'scheme_33': 250,
+            'safoora_goth': 250,
+            'university_road': 250,
+            'sharah_e_faisal': 250,
+            'sea_view': 250,
+            'hawksbay': 250
         };
 
         const OWNER_WHATSAPP = '923222181352';
@@ -1039,22 +1129,31 @@
             
             if (area === 'north_nazimabad') {
                 blockGroup.style.display = 'block';
-                const blocks = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'Other'];
-                blocks.forEach(block => {
-                    const option = document.createElement('option');
-                    option.value = block === 'Other' ? 'other' : block;
-                    option.textContent = block === 'Other' ? 'Other Block' : 'Block ' + block;
-                    blockSelect.appendChild(option);
-                });
-            } else if (area === 'fb_area') {
-                blockGroup.style.display = 'block';
-                const blocks = ['5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20'];
-                blocks.forEach(block => {
+                const freeBlocks = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'K', 'L', 'M', 'N'];
+                const paidBlocks = ['I', 'J', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+                
+                // Add free blocks first
+                freeBlocks.forEach(block => {
                     const option = document.createElement('option');
                     option.value = block;
-                    option.textContent = 'Block ' + block;
+                    option.textContent = 'Block ' + block + ' (FREE)';
+                    option.style.color = '#4CAF50';
                     blockSelect.appendChild(option);
                 });
+                
+                // Add paid blocks
+                paidBlocks.forEach(block => {
+                    const option = document.createElement('option');
+                    option.value = block;
+                    option.textContent = 'Block ' + block + ' (Rs. 150)';
+                    blockSelect.appendChild(option);
+                });
+                
+                // Add other
+                const otherOption = document.createElement('option');
+                otherOption.value = 'other';
+                otherOption.textContent = 'Other Block (Rs. 150)';
+                blockSelect.appendChild(otherOption);
             } else {
                 blockGroup.style.display = 'none';
             }
@@ -1071,7 +1170,7 @@
                 return;
             }
             
-            if (area === 'north_nazimabad' || area === 'fb_area') {
+            if (area === 'north_nazimabad') {
                 if (block && DELIVERY_CHARGES[area][block] !== undefined) {
                     currentDeliveryCharge = DELIVERY_CHARGES[area][block];
                 } else {
@@ -1182,7 +1281,7 @@
             const instructions = document.getElementById('instructionsInput').value.trim();
             
             if (!area) { showToast('Please select area', 'error'); return; }
-            if ((area === 'north_nazimabad' || area === 'fb_area') && !block) { 
+            if (area === 'north_nazimabad' && !block) { 
                 showToast('Please select block', 'error'); return; 
             }
             if (!address) { showToast('Please enter address', 'error'); return; }
@@ -1190,7 +1289,7 @@
             if (!phone) { showToast('Please enter phone', 'error'); return; }
             
             let deliveryCharge = 0;
-            if (area === 'north_nazimabad' || area === 'fb_area') {
+            if (area === 'north_nazimabad') {
                 deliveryCharge = DELIVERY_CHARGES[area][block] !== undefined ? DELIVERY_CHARGES[area][block] : 150;
             } else {
                 deliveryCharge = DELIVERY_CHARGES[area] || 150;
@@ -1202,10 +1301,54 @@
             
             const areaNames = {
                 'north_nazimabad': 'North Nazimabad',
-                'nagan_chowrangi': 'Nagan Chowrangi',
-                'power_house': 'Power House',
                 'nazimabad': 'Nazimabad',
-                'fb_area': 'F.B. Area'
+                'buffer_zone': 'Buffer Zone',
+                'federal_b_area': 'Federal B Area',
+                'gulberg': 'Gulberg',
+                'shadman_town': 'Shadman Town',
+                'ancholi': 'Ancholi',
+                'azizabad': 'Azizabad',
+                'aisha_manzil': 'Aisha Manzil',
+                'liaquatabad': 'Liaquatabad',
+                'rizvia_society': 'Rizvia Society',
+                'gulbahar': 'Gulbahar',
+                'water_pump': 'Water Pump',
+                'nagan_chowrangi': 'Nagan Chowrangi',
+                'north_karachi': 'North Karachi',
+                'new_karachi': 'New Karachi',
+                'surjani_town': 'Surjani Town',
+                'site_area': 'SITE Area',
+                'golimar': 'Golimar',
+                'metroville': 'Metroville',
+                'gulshan_e_iqbal': 'Gulshan-e-Iqbal',
+                'gulistan_e_jauhar': 'Gulistan-e-Jauhar',
+                'pechs': 'PECHS',
+                'bahadurabad': 'Bahadurabad',
+                'saddar': 'Saddar',
+                'garden': 'Garden',
+                'tariq_road': 'Tariq Road',
+                'clifton': 'Clifton',
+                'dha': 'DHA',
+                'korangi': 'Korangi',
+                'landhi': 'Landhi',
+                'malir': 'Malir',
+                'shah_faisal_colony': 'Shah Faisal Colony',
+                'qayyumabad': 'Qayyumabad',
+                'mehmoodabad': 'Mehmoodabad',
+                'manzoor_colony': 'Manzoor Colony',
+                'orangi_town': 'Orangi Town',
+                'baldia_town': 'Baldia Town',
+                'lyari': 'Lyari',
+                'keamari': 'Keamari',
+                'pib_colony': 'PIB Colony',
+                'soldier_bazaar': 'Soldier Bazaar',
+                'jamshed_town': 'Jamshed Town',
+                'scheme_33': 'Scheme 33',
+                'safoora_goth': 'Safoora Goth',
+                'university_road': 'University Road',
+                'sharah_e_faisal': 'Shahrah-e-Faisal',
+                'sea_view': 'Sea View',
+                'hawksbay': 'Hawksbay'
             };
             
             const banner = document.getElementById('savedInfoBanner');
@@ -1242,7 +1385,7 @@
             }
         }
 
-        // FIXED: Proper WhatsApp message encoding
+        // Place Order
         function placeOrder() {
             if (cart.length === 0) {
                 showToast('Please add items to cart', 'error');
@@ -1269,13 +1412,57 @@
             
             const areaNames = {
                 'north_nazimabad': 'North Nazimabad',
-                'nagan_chowrangi': 'Nagan Chowrangi',
-                'power_house': 'Power House',
                 'nazimabad': 'Nazimabad',
-                'fb_area': 'F.B. Area'
+                'buffer_zone': 'Buffer Zone',
+                'federal_b_area': 'Federal B Area',
+                'gulberg': 'Gulberg',
+                'shadman_town': 'Shadman Town',
+                'ancholi': 'Ancholi',
+                'azizabad': 'Azizabad',
+                'aisha_manzil': 'Aisha Manzil',
+                'liaquatabad': 'Liaquatabad',
+                'rizvia_society': 'Rizvia Society',
+                'gulbahar': 'Gulbahar',
+                'water_pump': 'Water Pump',
+                'nagan_chowrangi': 'Nagan Chowrangi',
+                'north_karachi': 'North Karachi',
+                'new_karachi': 'New Karachi',
+                'surjani_town': 'Surjani Town',
+                'site_area': 'SITE Area',
+                'golimar': 'Golimar',
+                'metroville': 'Metroville',
+                'gulshan_e_iqbal': 'Gulshan-e-Iqbal',
+                'gulistan_e_jauhar': 'Gulistan-e-Jauhar',
+                'pechs': 'PECHS',
+                'bahadurabad': 'Bahadurabad',
+                'saddar': 'Saddar',
+                'garden': 'Garden',
+                'tariq_road': 'Tariq Road',
+                'clifton': 'Clifton',
+                'dha': 'DHA',
+                'korangi': 'Korangi',
+                'landhi': 'Landhi',
+                'malir': 'Malir',
+                'shah_faisal_colony': 'Shah Faisal Colony',
+                'qayyumabad': 'Qayyumabad',
+                'mehmoodabad': 'Mehmoodabad',
+                'manzoor_colony': 'Manzoor Colony',
+                'orangi_town': 'Orangi Town',
+                'baldia_town': 'Baldia Town',
+                'lyari': 'Lyari',
+                'keamari': 'Keamari',
+                'pib_colony': 'PIB Colony',
+                'soldier_bazaar': 'Soldier Bazaar',
+                'jamshed_town': 'Jamshed Town',
+                'scheme_33': 'Scheme 33',
+                'safoora_goth': 'Safoora Goth',
+                'university_road': 'University Road',
+                'sharah_e_faisal': 'Shahrah-e-Faisal',
+                'sea_view': 'Sea View',
+                'hawksbay': 'Hawksbay'
             };
             
-            // Build message with proper encoding
+            // Build message
             let message = 'NEW ORDER - The Home Kitchen\n\n';
             message += 'Order #: ' + orderNum + '\n';
             message += '------------------------\n\n';
@@ -1304,14 +1491,11 @@
             message += '------------------------\n';
             message += 'Please confirm order.';
             
-            // Proper URL encoding
             const encodedMessage = encodeURIComponent(message);
             const whatsappUrl = 'https://wa.me/' + OWNER_WHATSAPP + '?text=' + encodedMessage;
             
-            // Open WhatsApp
             window.open(whatsappUrl, '_blank');
             
-            // Show success modal
             setTimeout(() => {
                 showSuccessModal(orderNum);
                 
